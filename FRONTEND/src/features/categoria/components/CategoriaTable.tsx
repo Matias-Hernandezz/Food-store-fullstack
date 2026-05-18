@@ -1,5 +1,5 @@
 import { useState, Fragment } from "react";
-import { Button, Badge, ConfirmDialog, SkeletonRow, ErrorState, EmptyState, SearchInput } from "../ui";
+import { Button, Badge, ConfirmDialog, SkeletonRow, ErrorState, EmptyState, SearchInput } from "../../../shared/components/ui";
 import { useDeleteCategoria } from "../../hooks/useCategoria";
 import type { Categoria } from "../../types";
  

@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Button } from "../../components/ui";
+import { Button } from "../../../shared/components/ui";
 import { IngredienteTable } from "../../components/ingrediente/IngredienteTable";
 import { IngredienteForm } from "../../components/ingrediente/IngredienteForm";
-import { useIngredientes } from "../../hooks/useIngrediente";
+import { useIngredientes } from "../hooks/useIngrediente";
 import type { Ingrediente } from "../../types";
 
 export function IngredientesPage() {

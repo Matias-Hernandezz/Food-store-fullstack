@@ -1,4 +1,4 @@
-import { apiFetch } from "./client";
+import { apiFetch } from "../shared/api/client";
 import type {
   Ingrediente,
   IngredienteCreate,

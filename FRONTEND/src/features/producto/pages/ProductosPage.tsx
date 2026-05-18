@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Button } from "../../components/ui";
-import { ProductoTable } from "../../components/producto/ProductoTable";
-import { ProductoForm } from "../../components/producto/ProductoForm";
+import { Button } from "../../../shared/components/ui";
+import { ProductoTable } from "../components/ProductoTable";
+import { ProductoForm } from "../components/ProductoForm";
 import { useProductos } from "../../hooks/useProducto";
 import { useCategorias } from "../../hooks/useCategoria";
-import { useIngredientes } from "../../hooks/useIngrediente";
+import { useIngredientes } from "../../ingrediente/hooks/useIngrediente";
 import type { Producto } from "../../types";
 
 export function ProductosPage() {

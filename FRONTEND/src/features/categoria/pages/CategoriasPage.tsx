@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Button } from "../../components/ui";
-import { CategoriaTable } from "../../components/categoria/CategoriaTable";
-import { CategoriaForm } from "../../components/categoria/CategoriaForm";
+import { Button } from "../../../shared/components/ui";
+import { CategoriaTable } from "../components/CategoriaTable";
+import { CategoriaForm } from "../components/CategoriaForm";
 import { useCategorias } from "../../hooks/useCategoria";
 import type { Categoria } from "../../types";
 
