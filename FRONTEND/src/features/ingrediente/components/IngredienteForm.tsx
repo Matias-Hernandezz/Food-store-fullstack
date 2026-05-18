@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Button, Input, Textarea, Modal } from "../ui";
+import { Button, Input, Textarea, Modal } from "../../shared/components/ui";
 import { useCreateIngrediente, useUpdateIngrediente } from "../../hooks/useIngrediente";
 import type { Ingrediente, IngredienteCreate } from "../../types";
 

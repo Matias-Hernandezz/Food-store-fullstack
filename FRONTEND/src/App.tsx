@@ -1,14 +1,14 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { AdminLayout } from "./components/AdminLayout";
-import { CategoriasPage } from "./pages/admin/CategoriasPage";
-import { ProductosPage } from "./pages/admin/ProductosPage";
-import { IngredientesPage } from "./pages/admin/IngredientesPage";
+import { AdminLayout } from "./shared/components/AdminLayout";
+import { CategoriasPage } from "./features/categoria/pages/CategoriasPage";
+import { ProductosPage } from "./features/producto/pages/ProductosPage";
+import { IngredientesPage } from "./features/ingrediente/pages/IngredientesPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 30, // 30 segundos
+      staleTime: 1000 * 30,
       retry: 1,
     },
   },

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Badge, ConfirmDialog, SkeletonRow, ErrorState, EmptyState, SearchInput } from "../ui";
+import { Button, Badge, ConfirmDialog, SkeletonRow, ErrorState, EmptyState, SearchInput } from "../../../shared/components/ui";
 import { useDeleteProducto } from "../../hooks/useProducto";
 import type { Producto } from "../../types";
 

@@ -62,7 +62,7 @@ export interface Producto {
   id: number;
   nombre: string;
   descripcion: string | null;
-  precio_base: string; // Decimal viene como string desde FastAPI
+  precio_base: string; 
   imagenes_url: string | null;
   stock_cantidad: number;
   disponible: boolean;

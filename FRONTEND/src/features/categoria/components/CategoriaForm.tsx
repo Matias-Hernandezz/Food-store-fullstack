@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Button, Input, Textarea, Modal } from "../ui";
+import { Button, Input, Textarea, Modal } from "../../../shared/components/ui";
 import { useCreateCategoria, useUpdateCategoria } from "../../hooks/useCategoria";
 import type { Categoria, CategoriaCreate } from "../../types";
 
