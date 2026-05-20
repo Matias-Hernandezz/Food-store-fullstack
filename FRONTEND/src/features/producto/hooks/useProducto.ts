@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { productoApi } from "../api/producto.actions";
-import type { ProductoCreate, ProductoUpdate } from "../types";
+import type { ProductoCreate, ProductoUpdate } from "../../../shared/types";
 
 export const PRODUCTO_KEY = ["productos"] as const;
 

@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Button } from "../../../shared/components/ui";
 import { CategoriaTable } from "../components/CategoriaTable";
 import { CategoriaForm } from "../components/CategoriaForm";
-import { useCategorias } from "../../hooks/useCategoria";
-import type { Categoria } from "../../types";
+import { useCategorias } from "../hooks/useCategoria";
+import type { Categoria } from "../../../shared/types";
 
 export function CategoriasPage() {
   const [formOpen, setFormOpen] = useState(false);

@@ -8,7 +8,7 @@ class UnitOfWork:
         self._session = session
 
     def __enter__(self) -> "UnitOfWork":
-        # Inicializamos los repositorios específicos
+        
         self.ingredientes = IngredienteRepository(self._session)
         self.productos = ProductoRepository(self._session)
         self.categorias = CategoriaRepository(self._session)
@@ -16,9 +16,9 @@ class UnitOfWork:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         if exc_type is None:
-            self._session.commit() # Todo salió bien
+            self._session.commit() 
         else:
-            self._session.rollback() # Hubo un error, deshacemos todo
+            self._session.rollback()
 
     def commit(self):
         self._session.commit()

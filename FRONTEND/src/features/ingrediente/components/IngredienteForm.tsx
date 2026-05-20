@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { Button, Input, Textarea, Modal } from "../../shared/components/ui";
-import { useCreateIngrediente, useUpdateIngrediente } from "../../hooks/useIngrediente";
-import type { Ingrediente, IngredienteCreate } from "../../types";
+import { Button, Input, Textarea, Modal } from "../../../shared/components/ui";
+import { useCreateIngrediente, useUpdateIngrediente } from "../hooks/useIngrediente";
+import type { Ingrediente, IngredienteCreate } from "../../../shared/types";
 
 interface IngredienteFormProps {
   open: boolean;

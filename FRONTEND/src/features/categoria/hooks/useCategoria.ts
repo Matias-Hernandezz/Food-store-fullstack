@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { categoriaApi } from "../api/categoria.actions";
-import type { CategoriaCreate, CategoriaUpdate } from "../types";
+import type { CategoriaCreate, CategoriaUpdate } from "../../../shared/types";
 
 export const CATEGORIA_KEY = ["categorias"] as const;
 

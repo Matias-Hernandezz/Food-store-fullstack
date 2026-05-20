@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button, Input, Textarea, Modal } from "../../../shared/components/ui";
-import { useCreateProducto, useUpdateProducto } from "../../hooks/useProducto";
-import type { Producto, ProductoCreate, Categoria, Ingrediente } from "../../types";
+import { useCreateProducto, useUpdateProducto } from "../hooks/useProducto";
+import type { Producto, ProductoCreate, Categoria, Ingrediente } from "../../../shared/types";
 
 interface ProductoFormProps {
   open: boolean;

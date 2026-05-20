@@ -33,12 +33,12 @@ app.include_router(router_ingrediente)
 app.include_router(router_uploads)
 
 origins = [
-    "http://localhost:5173",  # Puerto estándar de Vite
-    "http://localhost:5174",  # El puerto que estás usando actualmente
+    "http://localhost:5173",  
+    "http://localhost:5174",  
 ]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins, # El puerto de tu Vite/React
+    allow_origins=origins, 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

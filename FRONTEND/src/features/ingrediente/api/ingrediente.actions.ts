@@ -1,10 +1,10 @@
-import { apiFetch } from "../shared/api/client";
+import { apiFetch } from "../../../shared/api/client";
 import type {
   Ingrediente,
   IngredienteCreate,
   IngredienteUpdate,
   IngredienteList,
-} from "../types";
+} from "../../../shared/types";
 
 const BASE = "/ingredientes";
 

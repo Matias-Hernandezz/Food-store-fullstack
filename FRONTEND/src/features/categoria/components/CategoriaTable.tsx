@@ -1,7 +1,7 @@
 import { useState, Fragment } from "react";
 import { Button, Badge, ConfirmDialog, SkeletonRow, ErrorState, EmptyState, SearchInput } from "../../../shared/components/ui";
-import { useDeleteCategoria } from "../../hooks/useCategoria";
-import type { Categoria } from "../../types";
+import { useDeleteCategoria } from "../hooks/useCategoria";
+import type { Categoria } from "../../../shared/types";
  
 interface CategoriaTableProps {
   data: Categoria[];
