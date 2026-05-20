@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button, Input, Textarea, Modal } from "../../../shared/components/ui";
-import { useCreateCategoria, useUpdateCategoria } from "../../hooks/useCategoria";
-import type { Categoria, CategoriaCreate } from "../../types";
+import { useCreateCategoria, useUpdateCategoria } from "../hooks/useCategoria";
+import type { Categoria, CategoriaCreate } from "../../../shared/types";
 
 interface CategoriaFormProps {
   open: boolean;

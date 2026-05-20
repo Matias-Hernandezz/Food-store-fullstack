@@ -16,11 +16,9 @@ class CategoriaService:
     # ── Helpers privados ──────────────────────────────────────────────────────
 
     def _get_or_404(self, uow: CategoriaUnitOfWork, categoria_id: int) -> Categoria:
-        """
-        Obtiene una categoría por ID (solo activas) o lanza excepción HTTP 404.
-        """
+        
         categoria = uow.categorias.get_by_id(categoria_id)
-        # Validación extra: si existe pero está borrada lógicamente, se considera 404
+        
         if not categoria or categoria.deleted_at is not None:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -29,9 +27,7 @@ class CategoriaService:
         return categoria
 
     def _assert_nombre_unique(self, uow: CategoriaUnitOfWork, nombre: str) -> None:
-        """
-        Valida que el nombre de la categoría no esté en uso.
-        """
+        
         if uow.categorias.get_by_nombre(nombre):
             raise HTTPException(
                 status_code=status.HTTP_409_CONFLICT,
@@ -39,9 +35,7 @@ class CategoriaService:
             )
 
     def _validate_parent_id(self, uow: CategoriaUnitOfWork, parent_id: int, current_id: int | None = None) -> Categoria:
-        """
-        Valida que la categoría padre exista y no sea la misma categoría.
-        """
+        
         if current_id and parent_id == current_id:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
@@ -59,9 +53,7 @@ class CategoriaService:
     # ── Casos de uso ─────────────────────────────────────────────────────────
 
     def create(self, data: CategoriaCreate) -> CategoriaRead:
-        """
-        Crea una nueva categoría.
-        """
+        
         with CategoriaUnitOfWork(self._session) as uow:
             self._assert_nombre_unique(uow, data.nombre)
             
@@ -74,9 +66,7 @@ class CategoriaService:
         return result
 
     def get_all(self, offset: int = 0, limit: int = 20) -> CategoriaList:
-        """
-        Obtiene lista paginada de categorías activas.
-        """
+       
         with CategoriaUnitOfWork(self._session) as uow:
             categorias = uow.categorias.get_active(offset=offset, limit=limit)
             total = uow.categorias.count_active()
@@ -87,18 +77,14 @@ class CategoriaService:
         return result
 
     def get_by_id(self, categoria_id: int) -> CategoriaRead:
-        """
-        Obtiene una categoría por ID.
-        """
+        
         with CategoriaUnitOfWork(self._session) as uow:
             categoria = self._get_or_404(uow, categoria_id)
             result = CategoriaRead.model_validate(categoria)
         return result
 
     def update(self, categoria_id: int, data: CategoriaUpdate) -> CategoriaRead:
-        """
-        Actualiza una categoría existente de forma parcial (PATCH).
-        """
+       
         with CategoriaUnitOfWork(self._session) as uow:
             categoria = self._get_or_404(uow, categoria_id)
 
@@ -117,9 +103,7 @@ class CategoriaService:
         return result
 
     def soft_delete(self, categoria_id: int) -> None:
-        """
-        Realiza un borrado lógico de la categoría marcando 'deleted_at'.
-        """
+        
         with CategoriaUnitOfWork(self._session) as uow:
             categoria = self._get_or_404(uow, categoria_id)
             categoria.deleted_at = datetime.now(timezone.utc)

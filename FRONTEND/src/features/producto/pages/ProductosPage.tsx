@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Button } from "../../../shared/components/ui";
 import { ProductoTable } from "../components/ProductoTable";
 import { ProductoForm } from "../components/ProductoForm";
-import { useProductos } from "../../hooks/useProducto";
-import { useCategorias } from "../../hooks/useCategoria";
+import { useProductos } from "../hooks/useProducto";
+import { useCategorias } from "../../categoria/hooks/useCategoria";
 import { useIngredientes } from "../../ingrediente/hooks/useIngrediente";
-import type { Producto } from "../../types";
+import type { Producto } from "../../../shared/types";
 
 export function ProductosPage() {
   const [formOpen, setFormOpen] = useState(false);

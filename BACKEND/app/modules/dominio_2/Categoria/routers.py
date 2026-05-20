@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, Query, status
 from sqlmodel import Session
 
-from app.core.db import get_session # Asumiendo tu dependencia de base de datos
+from app.core.db import get_session 
 from .services import CategoriaService
 from .schemas import CategoriaCreate, CategoriaUpdate, CategoriaRead, CategoriaList
 
@@ -10,7 +10,6 @@ router = APIRouter(prefix="/categorias", tags=["Categorias"])
 def get_categoria_service(session: Session = Depends(get_session)) -> CategoriaService:
     """Factory de dependencia: inyecta el servicio con su Session."""
     return CategoriaService(session)
-
 
 
 @router.post(

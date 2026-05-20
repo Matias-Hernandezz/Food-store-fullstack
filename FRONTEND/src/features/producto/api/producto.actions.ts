@@ -1,10 +1,10 @@
-import { apiFetch } from "../shared/api/client";
+import { apiFetch } from "../../../shared/api/client";
 import type {
   Producto,
   ProductoCreate,
   ProductoUpdate,
   ProductoList,
-} from "../types";
+} from "../../../shared/types";
 
 const BASE = "/productos";
 

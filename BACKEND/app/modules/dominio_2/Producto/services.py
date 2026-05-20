@@ -45,7 +45,6 @@ class ProductoService:
 
             if not data.categoria_ids:
                 raise HTTPException(status_code=400, detail="El producto debe tener al menos una categoría")
-            
             producto = Producto.model_validate(data)
             
             for cat_id in data.categoria_ids:

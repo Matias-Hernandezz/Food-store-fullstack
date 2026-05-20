@@ -8,7 +8,7 @@ from app.modules.Ingrediente.schemas import IngredienteCreate, IngredienteUpdate
 router = APIRouter(prefix="/ingredientes", tags=["Ingredientes"])
 
 def get_ingrediente_service(session: Session = Depends(get_session)) -> IngredienteService:
-    """Factory de dependencia: inyecta el servicio con su Session."""
+    
     return IngredienteService(session)
 
 @router.post(

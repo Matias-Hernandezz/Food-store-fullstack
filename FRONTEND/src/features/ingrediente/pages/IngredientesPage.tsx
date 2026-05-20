@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Button } from "../../../shared/components/ui";
-import { IngredienteTable } from "../../components/ingrediente/IngredienteTable";
-import { IngredienteForm } from "../../components/ingrediente/IngredienteForm";
+import { IngredienteTable } from "../components/IngredienteTable";
+import { IngredienteForm } from "../components/IngredienteForm";
 import { useIngredientes } from "../hooks/useIngrediente";
-import type { Ingrediente } from "../../types";
+import type { Ingrediente } from "../../../shared/types";
 
 export function IngredientesPage() {
   const [formOpen, setFormOpen] = useState(false);

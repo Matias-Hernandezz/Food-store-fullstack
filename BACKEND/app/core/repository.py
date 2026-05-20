@@ -19,7 +19,7 @@ class BaseRepository(Generic[ModelT]):
 
     def add(self, instance: ModelT) -> ModelT:
         self.session.add(instance)
-        self.session.flush()  # Obtiene el ID sin confirmar la transacción
+        self.session.flush()  
         self.session.refresh(instance)
         return instance
 

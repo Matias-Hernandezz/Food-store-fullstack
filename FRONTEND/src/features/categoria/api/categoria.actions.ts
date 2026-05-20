@@ -1,10 +1,10 @@
-import { apiFetch } from "../shared/api/client";
+import { apiFetch } from "../../../shared/api/client";
 import type {
   Categoria,
   CategoriaCreate,
   CategoriaUpdate,
   CategoriaList,
-} from "../types";
+} from "../../../shared/types";
 
 const BASE = "/categorias";
 

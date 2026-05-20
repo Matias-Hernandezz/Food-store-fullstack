@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { ingredienteApi } from "../api/ingrediente.actions";
-import type { IngredienteCreate, IngredienteUpdate } from "../types";
+import type { IngredienteCreate, IngredienteUpdate } from "../../../shared/types";
 
 export const INGREDIENTE_KEY = ["ingredientes"] as const;
 

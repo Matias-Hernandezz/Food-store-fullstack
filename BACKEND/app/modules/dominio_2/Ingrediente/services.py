@@ -7,10 +7,7 @@ from app.modules.Ingrediente.models import Ingrediente
 
 class IngredienteService:
     def __init__(self, session: Session) -> None:
-        """
-        Inicializa el servicio con una sesión de base de datos.
-        Delega la transacción en IngredienteUnitOfWork.
-        """
+      
         self._session = session
 
 

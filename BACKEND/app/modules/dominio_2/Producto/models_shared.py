@@ -14,3 +14,4 @@ class ProductoIngrediente(SQLModel, table=True):
     producto_id: int = Field(sa_column=Column(BigInteger, ForeignKey("producto.id"), primary_key=True))
     ingrediente_id: int = Field(sa_column=Column(BigInteger, ForeignKey("ingrediente.id"), primary_key=True))
     es_removible: bool = Field(default=False, nullable=False)
+    
