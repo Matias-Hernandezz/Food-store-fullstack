@@ -2,10 +2,10 @@ from typing import Optional, List, TYPE_CHECKING
 from datetime import datetime
 from sqlmodel import SQLModel, Field, Relationship
 
-from app.modules.Producto.models_shared import ProductoIngrediente 
+from app.modules.dominio_2.Producto.models_shared import ProductoIngrediente 
 
 if TYPE_CHECKING:
-    from app.modules.Producto.models import Producto
+    from app.modules.dominio_2.Producto.models import Producto
 
 class Ingrediente(SQLModel, table=True):
     __tablename__ = "ingrediente"
