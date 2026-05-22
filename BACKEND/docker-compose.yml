@@ -6,7 +6,7 @@ services:
     restart: always
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 12345  # Pon la misma que en tu config.py
+      POSTGRES_PASSWORD: postgres  # Pon la misma que en tu config.py
       POSTGRES_DB: db-parcial-1       # Pon el mismo nombre que en tu config.py
     ports:
       - "5555:5432"               # Mapea el puerto de tu PC al de PostgreSQL
