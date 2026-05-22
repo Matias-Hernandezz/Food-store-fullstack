@@ -6,11 +6,11 @@ from sqlalchemy import Column, BigInteger, CheckConstraint, text, ForeignKey
 
 # 1. IMPORTACIONES REALES
 # Importamos las tablas de unión desde el archivo compartido para romper el círculo
-from app.modules.Producto.models_shared import ProductoCategoria, ProductoIngrediente
+from app.modules.dominio_2.Producto.models_shared import ProductoCategoria, ProductoIngrediente
 
 # 2. IMPORTACIONES DE TIPADO
-from app.modules.Categoria.models import Categoria
-from app.modules.Ingrediente.models import Ingrediente
+from app.modules.dominio_2.Categoria.models import Categoria
+from app.modules.dominio_2.Ingrediente.models import Ingrediente
 
 class Producto(SQLModel, table=True):
     __tablename__ = "producto"
