@@ -1,9 +1,9 @@
 from fastapi import HTTPException, status
 from sqlmodel import Session
 from datetime import datetime, timezone
-from app.modules.Ingrediente.unit_of_work import IngredienteUnitOfWork
-from app.modules.Ingrediente.schemas import IngredienteCreate, IngredienteUpdate, IngredienteRead, IngredienteList
-from app.modules.Ingrediente.models import Ingrediente
+from app.modules.dominio_2.Ingrediente.unit_of_work import IngredienteUnitOfWork
+from app.modules.dominio_2.Ingrediente.schemas import IngredienteCreate, IngredienteUpdate, IngredienteRead, IngredienteList
+from app.modules.dominio_2.Ingrediente.models import Ingrediente
 
 class IngredienteService:
     def __init__(self, session: Session) -> None:

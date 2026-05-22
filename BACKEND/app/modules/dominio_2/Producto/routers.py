@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, Query, status
 from sqlmodel import Session
 from app.core.db import get_session
-from app.modules.Producto.services import ProductoService
-from app.modules.Producto.schemas import ProductoCreate, ProductoUpdate, ProductoRead, ProductoList
+from app.modules.dominio_2.Producto.services import ProductoService
+from app.modules.dominio_2.Producto.schemas import ProductoCreate, ProductoUpdate, ProductoRead, ProductoList
 
 router = APIRouter(prefix="/productos", tags=["Productos"])
 
