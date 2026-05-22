@@ -4,8 +4,6 @@ from sqlmodel import Session, select
 ModelT = TypeVar("ModelT")
 
 class BaseRepository(Generic[ModelT]):
-    """Repositorio genérico con operaciones CRUD básicas."""
-    
     def __init__(self, session: Session, model: Type[ModelT]):
         self.session = session
         self.model = model
