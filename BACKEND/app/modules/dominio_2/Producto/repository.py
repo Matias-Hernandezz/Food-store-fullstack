@@ -1,6 +1,6 @@
 from sqlmodel import Session, select
 from app.core.repository import BaseRepository
-from app.modules.Producto.models import Producto
+from app.modules.dominio_2.Producto.models import Producto
 
 class ProductoRepository(BaseRepository[Producto]):
     def __init__(self, session: Session) -> None:
