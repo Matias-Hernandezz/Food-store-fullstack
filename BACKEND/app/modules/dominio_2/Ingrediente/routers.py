@@ -2,8 +2,8 @@ from fastapi import APIRouter, Depends, Query, status
 from sqlmodel import Session
 
 from app.core.db import get_session
-from app.modules.Ingrediente.services import IngredienteService
-from app.modules.Ingrediente.schemas import IngredienteCreate, IngredienteUpdate, IngredienteRead, IngredienteList
+from app.modules.dominio_2.Ingrediente.services import IngredienteService
+from app.modules.dominio_2.Ingrediente.schemas import IngredienteCreate, IngredienteUpdate, IngredienteRead, IngredienteList
 
 router = APIRouter(prefix="/ingredientes", tags=["Ingredientes"])
 

@@ -1,9 +1,9 @@
 from fastapi import HTTPException, status
 from sqlmodel import Session
 from datetime import datetime, timezone
-from app.modules.Producto.unit_of_work import ProductoUnitOfWork
-from app.modules.Producto.schemas import ProductoCreate, ProductoUpdate, ProductoRead, ProductoList
-from app.modules.Producto.models import Producto
+from app.modules.dominio_2.Producto.unit_of_work import ProductoUnitOfWork
+from app.modules.dominio_2.Producto.schemas import ProductoCreate, ProductoUpdate, ProductoRead, ProductoList
+from app.modules.dominio_2.Producto.models import Producto
 
 class ProductoService:
     def __init__(self, session: Session) -> None:
