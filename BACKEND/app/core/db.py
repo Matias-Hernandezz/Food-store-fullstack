@@ -13,5 +13,6 @@ def create_all_tables() -> None:
     import app.modules.dominio_2.Categoria.models   
     import app.modules.dominio_2.Ingrediente.models   
     import app.modules.dominio_2.Producto.models   
+    import app.modules.dominio_3.Pedidos.models
     
     SQLModel.metadata.create_all(engine)

@@ -2,12 +2,18 @@ from sqlmodel import Session, select
 from app.core.db import engine, create_all_tables
 from app.core.security import hash_password
 from app.modules.dominio_1.Usuarios.models import Usuario, Rol, UsuarioRol
-
+from app.modules.dominio_3.Pedidos.models import FormaPago
 ROLES = [
     {"codigo": "ADMIN",   "nombre": "Administrador",     "descripcion": "CRUD completo del sistema"},
     {"codigo": "STOCK",   "nombre": "Gestor de Stock",   "descripcion": "Leer productos, actualizar stock y disponibilidad"},
     {"codigo": "PEDIDOS", "nombre": "Gestor de Pedidos", "descripcion": "Ver y avanzar estados de pedidos"},
     {"codigo": "CLIENT",  "nombre": "Cliente",           "descripcion": "Catálogo, carrito y pedidos propios"},
+]
+
+FORMAS_PAGO = [
+    {"codigo": "EFECTIVO",      "descripcion": "Efectivo contra entrega", "habilitado": True},
+    {"codigo": "MERCADO_PAGO",  "descripcion": "Mercado Pago (QR/Link)",  "habilitado": True},
+    {"codigo": "TRANSFERENCIA", "descripcion": "Transferencia Bancaria",  "habilitado": True},
 ]
 
 ADMIN_USER = {
@@ -31,6 +37,17 @@ def run() -> None:
             else:
                 session.add(Rol(**r))
                 print(f"  [+] Creado:    {r['codigo']} — {r['nombre']}")
+
+        session.commit()
+
+        print("\nFormas de Pago:")
+        for fp in FORMAS_PAGO:
+            existing_fp = session.get(FormaPago, fp["codigo"])
+            if existing_fp:
+                print(f"  [=] Ya existe: {fp['codigo']}")
+            else:
+                session.add(FormaPago(**fp))
+                print(f"  [+] Creado:    {fp['codigo']} — {fp['descripcion']}")
 
         session.commit()
 
