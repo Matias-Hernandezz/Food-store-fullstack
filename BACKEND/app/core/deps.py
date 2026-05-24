@@ -1,3 +1,4 @@
+from app.modules.dominio_3.Pedidos.unit_of_work import PedidoUnitOfWork
 from app.modules.dominio_1.Usuarios.unit_of_work import UsuarioUnitOfWork
 from typing import Annotated
 from fastapi import Cookie, Depends, HTTPException, status
@@ -10,7 +11,9 @@ from app.modules.dominio_1.Usuarios.models import Usuario
 def get_uow(session: Session = Depends(get_session)) -> Generator["UnitOfWork", None, None]:
     with UsuarioUnitOfWork(session) as uow:
         yield uow
-
+def get_pedido_uow(session: Session = Depends(get_session)):
+    with PedidoUnitOfWork(session) as uow:
+        yield uow
 async def get_current_user(
     access_token: Annotated[str | None, Cookie()] = None,
     uow: UsuarioUnitOfWork = Depends(get_uow),
