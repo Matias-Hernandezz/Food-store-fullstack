@@ -1,0 +1,35 @@
+// features/auth/hooks/useLogin.ts
+//
+// Encapsula el estado del formulario de login:
+// loading, error, y la función submit.
+// El componente LoginForm solo consume este hook,
+// no sabe nada de axios ni del contexto.
+
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+
+export function useLogin() {
+    const { login } = useAuth();
+    const navigate = useNavigate();
+
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    const submit = async (email: string, password: string) => {
+        setError(null);
+        setLoading(true);
+        try {
+            await login(email, password);
+            navigate("/", { replace: true });
+        } catch (err: unknown) {
+            const detail = (err as { response?: { data?: { detail?: string } } })
+                ?.response?.data?.detail;
+            setError(detail ?? "Credenciales incorrectas");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return { submit, loading, error };
+}
