@@ -1,4 +1,3 @@
-// src/features/auth/api/authApi.ts
 import { apiFetch } from "../../../shared/api/client";
 import type { LoginInput, UsuarioCreate, UsuarioRead } from "../../../shared/types";
 

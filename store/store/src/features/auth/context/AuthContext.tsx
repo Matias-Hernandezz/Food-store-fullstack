@@ -1,4 +1,3 @@
-// src/features/auth/context/AuthContext.tsx
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { authApi } from "../api/authApi";
 import type { UsuarioRead } from "../../../shared/types";

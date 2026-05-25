@@ -1,4 +1,3 @@
-// src/features/auth/pages/RegisterPage.tsx
 import { useState, type FormEvent, type ChangeEvent } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { authApi } from "../api/authApi";
