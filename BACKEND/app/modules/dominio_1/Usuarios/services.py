@@ -125,13 +125,13 @@ class AuthService:
         self.uow.usuario_roles.add(UsuarioRol(usuario_id=usuario_id, rol_codigo=rol_codigo))
         return self._to_read(usuario)
 
-    # En tu clase de servicio, no uses 'with' aquí si ya lo hiciste en el router
+    
     def quitar_rol(self, usuario_id: int, rol_codigo: str) -> None:
-    # ELIMINA la línea: with self.uow:
+    
     
         usuario = self.uow.usuarios.get_by_id(usuario_id)
         if not usuario:
             raise HTTPException(status_code=404, detail="Usuario no encontrado")
         
         self.uow.usuario_roles.delete_by_user_and_rol(usuario_id, rol_codigo)
-    # No hagas commit aquí, deja que el 'with' del router lo haga al terminar
+    
