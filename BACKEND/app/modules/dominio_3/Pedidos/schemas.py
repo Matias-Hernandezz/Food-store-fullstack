@@ -66,5 +66,5 @@ class HistorialRead(SQLModel):
     created_at:   datetime
 
 class AvanzarEstadoInput(SQLModel):
-    """Body para cambiar el estado de un pedido."""
+
     motivo: Optional[str] = None
