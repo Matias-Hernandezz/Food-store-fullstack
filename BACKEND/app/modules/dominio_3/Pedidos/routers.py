@@ -1,20 +1,3 @@
-# app/modules/dominio_3/Pedidos/router.py
-"""
-Router de Pedidos — /api/v1/pedidos/
-
-Endpoints:
-  POST   /                      → crear pedido (CLIENT+)
-  GET    /                      → listar (CLIENT ve los suyos, ADMIN/PEDIDOS ven todos)
-  GET    /{id}                  → detalle
-  GET    /{id}/historial        → historial de estados
-  PATCH  /{id}/estado/{codigo}  → avanzar estado (FSM validada en service)
-  GET    /formas-pago           → catálogo de formas de pago habilitadas
-
-Separación de roles en PATCH /estado:
-  CLIENT  → solo puede cancelar desde PENDIENTE o CONFIRMADO
-  PEDIDOS → puede avanzar cualquier estado no terminal
-  ADMIN   → igual que PEDIDOS + acceso total
-"""
 
 from typing import Annotated
 
@@ -31,14 +14,12 @@ router = APIRouter(prefix="/api/v1/pedidos", tags=["Pedidos"])
 
 
 def _get_roles(access_token: str | None) -> list[str]:
-    """Extrae roles del JWT sin hacer query a BD."""
     if not access_token:
         return []
     payload = decode_access_token(access_token)
     return payload.get("roles", []) if payload else []
 
 
-# ── Catálogo público ──────────────────────────────────────────────────────────
 
 @router.get(
     "/formas-pago",
@@ -50,7 +31,7 @@ def listar_formas_pago(uow: UnitOfWork = Depends(get_pedido_uow)):
         return uow.formas_pago.get_habilitadas()
 
 
-# ── Crear pedido ──────────────────────────────────────────────────────────────
+
 
 @router.post(
     "/",
@@ -68,7 +49,7 @@ def crear_pedido(
         return PedidoService(uow).crear(data, current_user.id)
 
 
-# ── Listar pedidos ────────────────────────────────────────────────────────────
+
 
 @router.get(
     "/",
@@ -88,7 +69,7 @@ def listar_pedidos(
         return PedidoService(uow).listar(current_user.id, roles, offset, limit)
 
 
-# ── Detalle ───────────────────────────────────────────────────────────────────
+
 
 @router.get(
     "/{pedido_id}",
@@ -107,7 +88,7 @@ def obtener_pedido(
         return PedidoService(uow).obtener(pedido_id, current_user.id, roles)
 
 
-# ── Historial ─────────────────────────────────────────────────────────────────
+
 
 @router.get(
     "/{pedido_id}/historial",
@@ -123,7 +104,7 @@ def historial_pedido(
         return PedidoService(uow).historial(pedido_id)
 
 
-# ── Avanzar estado ────────────────────────────────────────────────────────────
+
 
 @router.patch(
     "/{pedido_id}/estado/{nuevo_estado}",
