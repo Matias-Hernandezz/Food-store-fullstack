@@ -1,23 +1,4 @@
-# app/modules/dominio_3/Pedidos/service.py
-"""
-PedidoService — lógica de negocio para pedidos.
 
-FSM (máquina de estados) — transiciones válidas:
-  PENDIENTE   → CONFIRMADO, CANCELADO
-  CONFIRMADO  → EN_PREP,    CANCELADO
-  EN_PREP     → EN_CAMINO
-  EN_CAMINO   → ENTREGADO
-  ENTREGADO   → (terminal)
-  CANCELADO   → (terminal)
-
-Reglas importantes del UML:
-  - La validación de la FSM va en el SERVICE, nunca en el router.
-  - HistorialEstadoPedido es append-only: solo INSERT.
-  - DetallePedido usa Snapshot Pattern: guarda nombre y precio
-    del producto AL MOMENTO de crear el pedido.
-  - CLIENT solo puede cancelar desde PENDIENTE o CONFIRMADO.
-  - ADMIN/PEDIDOS pueden avanzar cualquier estado no terminal.
-"""
 
 from datetime import datetime, timezone
 from decimal import Decimal
@@ -34,8 +15,7 @@ from app.modules.dominio_3.Pedidos.schemas import (
     DetallePedidoRead, HistorialRead, AvanzarEstadoInput,
 )
 
-# ── FSM ───────────────────────────────────────────────────────────────────────
-# Define qué estados son alcanzables desde cada estado
+
 TRANSICIONES: dict[str, list[str]] = {
     "PENDIENTE":  ["CONFIRMADO", "CANCELADO"],
     "CONFIRMADO": ["PREPARACION", "CANCELADO"],
@@ -45,7 +25,7 @@ TRANSICIONES: dict[str, list[str]] = {
     "CANCELADO":  [],   # terminal
 }
 
-# Estados desde los que el cliente puede cancelar
+
 CANCELABLES_POR_CLIENTE = {"PENDIENTE", "CONFIRMADO"}
 
 
@@ -54,19 +34,16 @@ class PedidoService:
     def __init__(self, uow: UnitOfWork):
         self.uow = uow
 
-    # ── Crear pedido ──────────────────────────────────────────────────────────
+  
     def crear(self, data: PedidoCreate, usuario_id: int) -> PedidoRead:
-        """
-        Crea un pedido desde el carrito con transacción atómica (UoW).
-        Aplica Snapshot Pattern en cada DetallePedido.
-        """
+     
         if not data.items:
             raise HTTPException(
                 status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
                 detail="El pedido debe tener al menos un ítem",
             )
 
-        # Validar forma de pago
+       
         forma = self.uow.formas_pago.get_by_id(data.forma_pago_codigo)
         if not forma or not forma.habilitado:
             raise HTTPException(
@@ -74,7 +51,6 @@ class PedidoService:
                 detail="Forma de pago inválida o no habilitada",
             )
 
-        # Construir detalles con snapshot
         detalles_data = []
         subtotal = Decimal("0.00")
 
@@ -91,15 +67,15 @@ class PedidoService:
             detalles_data.append({
                 "producto_id":     item.producto_id,
                 "cantidad":        item.cantidad,
-                "nombre_snapshot": producto.nombre,   # snapshot
-                "precio_snapshot": precio_snap,        # snapshot
+                "nombre_snapshot": producto.nombre,   
+                "precio_snapshot": precio_snap,        
                 "subtotal":        sub,
                 "personalizacion": item.personalizacion,
             })
 
-        total = subtotal  # sin descuento ni envío por ahora
+        total = subtotal 
 
-        # Crear cabecera
+        
         pedido = Pedido(
             usuario_id=usuario_id,
             direccion_id=data.direccion_id,
@@ -113,11 +89,11 @@ class PedidoService:
         )
         pedido = self.uow.pedidos.add(pedido)
 
-        # Crear detalles
+     
         for d in detalles_data:
             self.uow.detalles.add(DetallePedido(pedido_id=pedido.id, **d))
 
-        # Primer registro del historial (estado_desde=NULL → creación)
+        
         self.uow.historial.add(
             HistorialEstadoPedido(
                 pedido_id=pedido.id,
@@ -130,7 +106,7 @@ class PedidoService:
 
         return self._to_read(pedido)
 
-    # ── Avanzar estado ────────────────────────────────────────────────────────
+   
     def avanzar_estado(
         self,
         pedido_id: int,
@@ -139,14 +115,10 @@ class PedidoService:
         roles: list[str],
         data: AvanzarEstadoInput,
     ) -> PedidoRead:
-        """
-        Avanza el estado del pedido validando la FSM.
-        La validación ocurre aquí, nunca en el router.
-        """
         pedido = self._get_o_404(pedido_id)
         estado_actual = pedido.estado_codigo
 
-        # Validar que la transición sea válida en la FSM
+       
         permitidos = TRANSICIONES.get(estado_actual, [])
         if nuevo_estado not in permitidos:
             raise HTTPException(
@@ -155,7 +127,7 @@ class PedidoService:
                        f"Permitidos: {permitidos}",
             )
 
-        # Si es CLIENT, solo puede cancelar y solo desde estados cancelables
+        
         if "CLIENT" in roles and not any(r in ["ADMIN", "PEDIDOS"] for r in roles):
             if nuevo_estado != "CANCELADO":
                 raise HTTPException(
@@ -168,13 +140,13 @@ class PedidoService:
                     detail=f"Solo podés cancelar desde PENDIENTE o CONFIRMADO. Estado actual: {estado_actual}",
                 )
 
-        # Actualizar estado
+      
         estado_anterior = pedido.estado_codigo
         pedido.estado_codigo = nuevo_estado
         pedido.updated_at = datetime.now(timezone.utc)
         self.uow.pedidos.update(pedido)
 
-        # Registrar en historial (append-only)
+        
         self.uow.historial.add(
             HistorialEstadoPedido(
                 pedido_id=pedido.id,
@@ -187,7 +159,7 @@ class PedidoService:
 
         return self._to_read(pedido)
 
-    # ── Listar ────────────────────────────────────────────────────────────────
+ 
     def listar(
         self,
         usuario_id: int,
@@ -195,10 +167,7 @@ class PedidoService:
         offset: int,
         limit: int,
     ) -> PedidoList:
-        """
-        CLIENT ve solo sus pedidos.
-        ADMIN / PEDIDOS ven todos.
-        """
+        
         es_admin = any(r in ["ADMIN", "PEDIDOS"] for r in roles)
 
         if es_admin:
@@ -213,11 +182,11 @@ class PedidoService:
             total=total,
         )
 
-    # ── Detalle ───────────────────────────────────────────────────────────────
+    
     def obtener(self, pedido_id: int, usuario_id: int, roles: list[str]) -> PedidoRead:
         pedido = self._get_o_404(pedido_id)
 
-        # CLIENT solo puede ver sus propios pedidos
+       
         es_admin = any(r in ["ADMIN", "PEDIDOS"] for r in roles)
         if not es_admin and pedido.usuario_id != usuario_id:
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
@@ -225,7 +194,7 @@ class PedidoService:
 
         return self._to_read(pedido)
 
-    # ── Historial ─────────────────────────────────────────────────────────────
+  
     def historial(self, pedido_id: int) -> list[HistorialRead]:
         self._get_o_404(pedido_id)
         registros = self.uow.historial.get_by_pedido(pedido_id)
@@ -241,7 +210,7 @@ class PedidoService:
             for r in registros
         ]
 
-    # ── Helpers ───────────────────────────────────────────────────────────────
+   
     def _get_o_404(self, pedido_id: int) -> Pedido:
         pedido = self.uow.pedidos.get_by_id_con_detalles(pedido_id)
         if not pedido:
