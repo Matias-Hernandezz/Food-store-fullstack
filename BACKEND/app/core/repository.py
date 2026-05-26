@@ -24,3 +24,4 @@ class BaseRepository(Generic[ModelT]):
     def delete(self, instance: ModelT) -> None:
         self.session.delete(instance)
         self.session.flush()
+    

@@ -21,11 +21,12 @@ export function useLogin() {
         setLoading(true);
         try {
             await login(email, password);
-            navigate("/", { replace: true });
+            // Navegamos a /admin/categorias directamente, sin pasar por /
+            navigate("/admin/categorias", { replace: true });
         } catch (err: unknown) {
             const detail = (err as { response?: { data?: { detail?: string } } })
                 ?.response?.data?.detail;
-            setError(detail ?? "Credenciales incorrectas");
+            setError(detail ?? (err as Error).message ?? "Credenciales incorrectas");
         } finally {
             setLoading(false);
         }

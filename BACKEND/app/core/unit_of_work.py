@@ -11,8 +11,13 @@ class UnitOfWork:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         if exc_type is None:
-            self._session.commit() 
+            try:
+                self._session.commit()
+            except Exception as e:
+                print(f"ERROR AL HACER COMMIT: {e}")
+                raise e 
         else:
+            print(f"ERROR EN UOW: {exc_val}")
             self._session.rollback()
 
     def commit(self):

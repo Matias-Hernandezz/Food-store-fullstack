@@ -1,3 +1,4 @@
+from sqlalchemy.ext.asyncio import session
 from sqlmodel import Session, select
 from app.core.db import engine, create_all_tables
 from app.core.security import hash_password
@@ -23,6 +24,14 @@ ADMIN_USER = {
     "password": "AdminMati1234",
     "rol":      "ADMIN",
 }
+# Dentro de tu función run() en seed.py
+# ... después de crear los roles ...
+
+USUARIOS_PRUEBA = [
+    {"nombre": "Stockero", "email": "stock@ejemplo.com", "rol": "STOCK"},
+    {"nombre": "Vendedor", "email": "pedidos@ejemplo.com", "rol": "PEDIDOS"},
+    {"nombre": "Cliente",  "email": "user@ejemplo.com", "rol": "CLIENT"},
+]
 
 def run() -> None:
     print("=== Seed — Admin ===\n")
@@ -72,6 +81,28 @@ def run() -> None:
             session.commit()
 
             print(f"  [+] Creado: {ADMIN_USER['email']} / {ADMIN_USER['password']}  (rol=ADMIN)")
+        
+        print("\nUsuarios de prueba:")
+        for u in USUARIOS_PRUEBA:
+            existing_user = session.exec(
+                select(Usuario).where(Usuario.email == u["email"])
+            ).first()
+
+            if existing_user:
+                print(f"  [=] Ya existe: {u['email']}")
+            else:
+                usuario = Usuario(
+                    nombre=u["nombre"],
+                    apellido="Test",
+                    email=u["email"],
+                    password_hash=hash_password("123456"),
+                )
+                session.add(usuario)
+                session.flush() 
+
+                session.add(UsuarioRol(usuario_id=usuario.id, rol_codigo=u["rol"]))
+                session.commit()
+                print(f"  [+] Creado: {u['email']} / 123456 (rol={u['rol']})")
 
     print("\n✓ Seed completado")
     print("\nCredenciales de acceso:")

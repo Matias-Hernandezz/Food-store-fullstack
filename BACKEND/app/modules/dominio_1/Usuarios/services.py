@@ -108,3 +108,30 @@ class AuthService:
             roles=roles,
             deleted_at=usuario.deleted_at,
         )
+    def listar_usuarios(self, offset: int = 0, limit: int = 50) -> list[UsuarioRead]:
+        """Obtiene la lista de usuarios activos para el panel de administración."""
+        usuarios = self.uow.usuarios.get_all_active(offset, limit)
+        return [self._to_read(u) for u in usuarios]
+    def asignar_rol(self, usuario_id: int, rol_codigo: str) -> UsuarioRead:
+        usuario = self.uow.usuarios.get_by_id(usuario_id)
+        if not usuario:
+            raise HTTPException(status_code=404, detail="Usuario no encontrado")
+
+        # Verificamos si ya tiene el rol para no duplicar
+        roles_actuales = self.uow.usuario_roles.get_roles_de_usuario(usuario_id)
+        if rol_codigo in roles_actuales:
+            raise HTTPException(status_code=400, detail="El usuario ya tiene ese rol asignado")
+
+        self.uow.usuario_roles.add(UsuarioRol(usuario_id=usuario_id, rol_codigo=rol_codigo))
+        return self._to_read(usuario)
+
+    # En tu clase de servicio, no uses 'with' aquí si ya lo hiciste en el router
+    def quitar_rol(self, usuario_id: int, rol_codigo: str) -> None:
+    # ELIMINA la línea: with self.uow:
+    
+        usuario = self.uow.usuarios.get_by_id(usuario_id)
+        if not usuario:
+            raise HTTPException(status_code=404, detail="Usuario no encontrado")
+        
+        self.uow.usuario_roles.delete_by_user_and_rol(usuario_id, rol_codigo)
+    # No hagas commit aquí, deja que el 'with' del router lo haga al terminar

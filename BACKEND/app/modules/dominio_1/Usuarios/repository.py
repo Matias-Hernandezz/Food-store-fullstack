@@ -77,6 +77,17 @@ class UsuarioRolRepository(BaseRepository[UsuarioRol]):
         if row:
             self.session.delete(row)
             self.session.flush()
+    
+def delete_by_user_and_rol(self, usuario_id: int, rol_codigo: str) -> None:
+   
+    statement = select(UsuarioRol).where(
+        UsuarioRol.usuario_id == usuario_id,
+        UsuarioRol.rol_codigo == rol_codigo
+    )
+    row = self.session.exec(statement).first()
+    if row:
+        self.session.delete(row)
+        self.session.flush()
 
 class DireccionRepository(BaseRepository[DireccionEntrega]):
 

@@ -2,7 +2,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiFetch } from "../../../shared/api/client";
 
-const BASE = "/api/v1/auth/admin";
+const BASE = "/api/v1/auth";
 
 export interface UsuarioAdmin {
     id: number;

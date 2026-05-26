@@ -38,9 +38,9 @@ from app.modules.dominio_3.Pedidos.schemas import (
 # Define qué estados son alcanzables desde cada estado
 TRANSICIONES: dict[str, list[str]] = {
     "PENDIENTE":  ["CONFIRMADO", "CANCELADO"],
-    "CONFIRMADO": ["EN_PREP",    "CANCELADO"],
-    "EN_PREP":    ["EN_CAMINO"],
-    "EN_CAMINO":  ["ENTREGADO"],
+    "CONFIRMADO": ["PREPARACION", "CANCELADO"],
+    "PREPARACION":    ["ENVIADO"],
+    "ENVIADO":  ["ENTREGADO"],
     "ENTREGADO":  [],   # terminal
     "CANCELADO":  [],   # terminal
 }

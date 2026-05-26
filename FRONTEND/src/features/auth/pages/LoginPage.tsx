@@ -33,10 +33,10 @@ export function LoginPage() {
                         className="text-3xl font-black text-[#2d1e0f] tracking-tight leading-none"
                         style={{ fontFamily: "'Georgia', serif" }}
                     >
-                        Sahara Admin
+                        Food Store Admin
                     </h1>
                     <p className="text-sm text-[#9a8070] mt-2 tracking-wide">
-                        Gestión Gourmet&nbsp;•&nbsp;Acceso Restringido
+                        Gestión de Comidas&nbsp;•&nbsp;Acceso Restringido
                     </p>
                 </div>
 
@@ -51,10 +51,10 @@ export function LoginPage() {
                     <p className="text-xs text-[#9a8070]">
                         Soporte Técnico&nbsp;•&nbsp;
                         <a
-                            href="mailto:help@saharasystems.com"
+                            href="mailto:help@FoodStoresystems.com"
                             className="font-semibold text-[#5a4a3a] hover:text-[#c8722a] transition-colors"
                         >
-                            help@saharasystems.com
+                            help@FoodStoreystems.com
                         </a>
                     </p>
 
@@ -81,7 +81,7 @@ export function LoginPage() {
                 className="mt-8 text-sm text-[#b09080] text-center italic max-w-xs leading-relaxed"
                 style={{ fontFamily: "'Georgia', serif" }}
             >
-                "Donde la tradición se encuentra con la excelencia digital."
+                "Donde la tradición se encuentra con un simple click."
             </p>
         </div>
     );

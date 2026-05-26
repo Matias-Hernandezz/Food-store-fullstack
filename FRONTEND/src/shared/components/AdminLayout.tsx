@@ -1,33 +1,38 @@
 import { type ReactNode } from "react";
 import { NavLink } from "react-router-dom";
+import { useRole } from "../../features/usuarios/hooks/useRole";
+import { Icons } from "./ui/icons";
 
-const NAV_ITEMS = [
-  { to: "/admin/categorias", label: "Categorías", icon: "🏷️" },
-  { to: "/admin/productos", label: "Productos", icon: "🍔" },
-  { to: "/admin/ingredientes", label: "Ingredientes", icon: "🧅" },
+const NAV_ITEMS: { to: string; label: string; icon: ReactNode; required: string[] }[] = [
+  { to: "/admin/categorias", label: "Categorías", icon: <Icons.Categoria width={18} height={18} />, required: ["ADMIN", "STOCK"] },
+  { to: "/admin/productos", label: "Productos", icon: <Icons.Categoria width={18} height={18} />, required: ["ADMIN", "STOCK"] },
+  { to: "/admin/ingredientes", label: "Ingredientes", icon: <Icons.Categoria width={18} height={18} />, required: ["ADMIN", "STOCK"] },
+  { to: "/admin/usuarios", label: "Usuarios", icon: <Icons.Categoria width={18} height={18} />, required: ["ADMIN"] },
+  { to: "/admin/pedidos", label: "Pedidos", icon: <Icons.Categoria width={18} height={18} />, required: ["ADMIN", "PEDIDOS"] },
 ];
 
 export function AdminLayout({ children }: { children: ReactNode }) {
-  return (
-    <div className="min-h-screen bg-zinc-950 flex">
-      {/* Sidebar */}
-      <aside className="w-56 bg-zinc-900 border-r border-zinc-800 flex flex-col shrink-0">
-        <div className="px-5 py-6 border-b border-zinc-800">
-          <p className="text-xs font-bold uppercase tracking-widest text-orange-500">Panel Admin</p>
-          <h2 className="text-lg font-bold text-zinc-100 mt-0.5">Gestión</h2>
-        </div>
+  const { hasRole, isAdmin } = useRole();
 
+  const visibleItems = NAV_ITEMS.filter((item) =>
+    isAdmin || item.required.some((role) => hasRole(role))
+  );
+
+  return (
+    <div className="min-h-screen flex" style={{ backgroundColor: "#f5ede6" }}>
+      <aside className="w-56 flex flex-col shrink-0" style={{ backgroundColor: "#1a1a1a", borderRight: "1px solid #2a2a2a" }}>
+        <div className="px-5 py-6" style={{ borderBottom: "1px solid #2a2a2a" }}>
+          <p className="text-xs font-bold uppercase tracking-widest" style={{ color: "#f97316" }}>Panel Admin</p>
+          <h2 className="text-lg font-bold mt-0.5" style={{ color: "#f1f1f1" }}>Gestión</h2>
+        </div>
         <nav className="flex flex-col gap-1 p-3 flex-1">
-          {NAV_ITEMS.map((item) => (
+          {visibleItems.map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
-              className={({ isActive }) =>
-                `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all
-                ${isActive
-                  ? "bg-orange-500/15 text-orange-400 border border-orange-500/20"
-                  : "text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800"
-                }`
+              style={({ isActive }) => isActive
+                ? { backgroundColor: "rgba(249,115,22,0.15)", color: "#f97316", border: "1px solid rgba(249,115,22,0.25)", borderRadius: 8, padding: "10px 12px", fontSize: 14, fontWeight: 600, display: "flex", alignItems: "center", gap: 12, transition: "all .15s" }
+                : { color: "#888", border: "1px solid transparent", borderRadius: 8, padding: "10px 12px", fontSize: 14, fontWeight: 500, display: "flex", alignItems: "center", gap: 12, transition: "all .15s" }
               }
             >
               <span>{item.icon}</span>
@@ -35,14 +40,11 @@ export function AdminLayout({ children }: { children: ReactNode }) {
             </NavLink>
           ))}
         </nav>
-
-        <div className="px-5 py-4 border-t border-zinc-800">
-          <p className="text-xs text-zinc-600">v1.0.0</p>
+        <div className="px-5 py-4" style={{ borderTop: "1px solid #2a2a2a" }}>
+          <p className="text-xs" style={{ color: "#444" }}>v1.0.0</p>
         </div>
       </aside>
-
-      {/* Main content */}
-      <main className="flex-1 p-8 overflow-auto">
+      <main className="flex-1 p-8 overflow-auto" style={{ backgroundColor: "#f5ede6" }}>
         {children}
       </main>
     </div>

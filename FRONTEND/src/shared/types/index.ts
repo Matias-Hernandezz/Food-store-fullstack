@@ -62,14 +62,14 @@ export interface Producto {
   id: number;
   nombre: string;
   descripcion: string | null;
-  precio_base: string; 
+  precio_base: string;
   imagenes_url: string | null;
   stock_cantidad: number;
   disponible: boolean;
   created_at: string;
   updated_at: string;
   deleted_at: string | null;
-  categoria_ids: number[];     
+  categoria_ids: number[];
   ingrediente_ids: number[];
 }
 
